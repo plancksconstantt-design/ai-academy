@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moana Academy — Behance Case Study</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --purple:#9333ea;--pink:#c084fc;--dark-purple:#7c3aed;
+            --cyan:#06b6d4;--cyan-light:#67e8f9;
+            --dark:#0a0a14;--dark2:#12121f;--dark3:#1a1a2e;
+            --light:#f9fafb;--gray:#6b7280;--gray-light:#9ca3af;
+            --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+        }
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',-apple-system,sans-serif;color:var(--light);background:var(--dark);line-height:1.6;overflow-x:hidden}
+
+        /* ── Utility ── */
+        .container{max-width:1400px;margin:0 auto;padding:0 2rem;position:relative;z-index:2}
+        .grad{background:linear-gradient(135deg,var(--purple),var(--pink),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% auto;animation:gradShift 4s ease infinite}
+        .grad-purple{background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .grad-cyan{background:linear-gradient(135deg,var(--cyan),var(--cyan-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        .glass{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px}
+        .section-label{font-size:.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gray);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+        .section-label::before{content:'';width:24px;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink))}
+        .fade-up{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .fade-up.visible{opacity:1;transform:translateY(0)}
+
+        /* ── BG ── */
+        .bg-fixed{position:fixed;inset:0;z-index:-2;background:linear-gradient(135deg,#0a0a14 0%,#12121f 30%,#1e1040 60%,#12121f 80%,#0a0a14 100%);background-size:400% 400%;animation:bgMove 20s ease infinite}
+        @keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        .noise{position:fixed;inset:0;z-index:-1;opacity:.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+        /* ── COVER ── */
+        .cover{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:4rem 2rem}
+        .cover-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.35;pointer-events:none}
+        .cover-orb-1{width:500px;height:500px;background:var(--purple);top:-10%;left:-10%;animation:orbFloat 12s ease-in-out infinite}
+        .cover-orb-2{width:400px;height:400px;background:var(--cyan);bottom:-10%;right:-10%;animation:orbFloat 15s ease-in-out infinite reverse}
+        .cover-orb-3{width:300px;height:300px;background:var(--pink);top:40%;left:50%;animation:orbFloat 18s ease-in-out infinite 3s}
+        @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.1)}66%{transform:translate(-20px,30px) scale(.95)}}
+        .cover-badge{display:inline-flex;align-items:center;gap:8px;padding:.5rem 1.25rem;border-radius:50px;font-size:.75rem;margin-bottom:2rem;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(10px)}
+        .cover-badge .dot{width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 1.5s infinite}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+        .cover h1{font-size:clamp(3rem,8vw,7rem);font-weight:900;letter-spacing:-4px;line-height:1;margin-bottom:1.5rem}
+        .cover h1 span{display:block}
+        .cover-sub{font-size:clamp(1rem,2vw,1.4rem);color:var(--gray-light);max-width:600px;margin:0 auto 2.5rem;font-weight:400}
+        .cover-tags{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+        .cover-tag{padding:.4rem 1rem;border-radius:50px;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--glass-border);color:var(--gray-light)}
+        .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--gray);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s infinite}
+        @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+        /* ── SECTION BASE ── */
+        .section{padding:6rem 0;position:relative}
+        .section-dark{background:rgba(0,0,0,.3)}
+        .section-title{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-2px;margin-bottom:1rem;line-height:1.15}
+        .section-desc{font-size:1.05rem;color:var(--gray-light);max-width:680px;line-height:1.7}
+
+        /* ── GOALS ── */
+        .goals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+        .goal-card{padding:2rem;border-radius:20px;border:1px solid var(--glass-border);background:var(--glass);transition:all .4s ease;position:relative;overflow:hidden}
+        .goal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--pink));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+        .goal-card:hover{transform:translateY(-6px);border-color:rgba(147,51,234,.3);box-shadow:0 20px 60px rgba(147,51,234,.1)}
+        .goal-card:hover::before{transform:scaleX(1)}
+        .goal-num{font-size:3rem;font-weight:900;opacity:.08;position:absolute;top:.5rem;right:1rem;line-height:1}
+        .goal-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1.25rem}
+        .goal-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.3px}
+        .goal-card p{font-size:.85rem;color:var(--gray-light);line-height:1.6}
+
+        /* ── CHALLENGE ── */
+        .challenge-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-top:3rem}
+        .challenge-visual{position:relative;display:flex;align-items:center;justify-content:center;min-height:400px}
+        .challenge-box{width:280px;padding:2rem;border-radius:20px;text-align:center;position:relative;z-index:1}
+        .challenge-box.before{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+        .challenge-box.after{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)}
+        .challenge-box i{font-size:2.5rem;margin-bottom:1rem;display:block}
+        .challenge-box h4{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+        .challenge-box p{font-size:.8rem;color:var(--gray-light)}
+        .challenge-arrow{font-size:2rem;color:var(--purple);margin:0 1.5rem;z-index:2}
+
+        /* ── VPC CANVAS ── */
+        .canvas-container{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;position:relative}
+        .canvas-container::after{content:'PRODUCT-MARKET FIT';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);font-size:.65rem;font-weight:800;letter-spacing:6px;color:rgba(147,51,234,.25);z-index:5;white-space:nowrap;pointer-events:none}
+        .canvas-panel{padding:2rem;border-radius:24px;position:relative;overflow:hidden}
+        .canvas-panel.value-map{background:linear-gradient(135deg,rgba(147,51,234,.08),rgba(147,51,234,.02));border:1px solid rgba(147,51,234,.15)}
+        .canvas-panel.customer-profile{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(6,182,212,.02));border:1px solid rgba(6,182,212,.15)}
+        .canvas-panel-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--glass-border)}
+        .canvas-panel-title h3{font-size:1.3rem;font-weight:800;letter-spacing:-.5px}
+        .canvas-panel-title .tag{font-size:.6rem;padding:.35rem .75rem;border-radius:50px;background:rgba(255,255,255,.06);border:1px solid var(--glass-border);letter-spacing:1px;text-transform:uppercase;color:var(--gray-light)}
+        .canvas-block{margin-bottom:1.25rem;padding:1.25rem;background:rgba(255,255,255,.025);border:1px solid var(--glass-border);border-radius:14px;transition:all .3s ease}
+        .canvas-block:hover{border-color:rgba(147,51,234,.3);background:rgba(147,51,234,.04);transform:translateX(4px)}
+        .canvas-block-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+        .canvas-block-head .ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+        .canvas-block-head h4{font-size:.95rem;font-weight:700}
+        .canvas-block-head .sub{font-size:.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px}
+        .canvas-list{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+        .canvas-list li{display:flex;align-items:flex-start;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.8);padding:.35rem 0;border-bottom:1px dashed rgba(255,255,255,.04)}
+        .canvas-list li:last-child{border-bottom:none}
+        .canvas-list li i{color:var(--pink);margin-top:3px;font-size:.55rem;flex-shrink:0}
+
+        /* ── PERSONAS ── */
+        .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+        .persona{padding:2rem;border-radius:20px;border:1px solid var(--glass-border);background:var(--glass);transition:all .4s ease;position:relative;overflow:hidden}
+        .persona:hover{transform:translateY(-8px);border-color:var(--purple);box-shadow:0 24px 48px rgba(147,51,234,.15)}
+        .persona-avatar{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:1.25rem}
+        .persona h3{font-size:1.15rem;font-weight:700;margin-bottom:.25rem}
+        .persona .role{font-size:.8rem;color:var(--pink);font-weight:500;margin-bottom:.75rem}
+        .persona p{font-size:.82rem;color:var(--gray-light);line-height:1.6;margin-bottom:1rem}
+        .persona-stats{display:flex;gap:1rem;padding-top:1rem;border-top:1px solid var(--glass-border)}
+        .persona-stat-val{font-size:1.2rem;font-weight:800;color:var(--pink)}
+        .persona-stat-lbl{font-size:.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px}
+        .persona-quote{font-size:.78rem;font-style:italic;color:var(--gray-light);padding:.75rem;border-left:2px solid var(--purple);margin-bottom:1rem;background:rgba(147,51,234,.04);border-radius:0 8px 8px 0}
+
+        /* ── VISUAL IDENTITY ── */
+        .identity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:3rem}
+        .identity-card{padding:2.5rem;border-radius:20px;border:1px solid var(--glass-border);background:var(--glass)}
+        .identity-card h3{font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+        .color-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+        .color-swatch{width:72px;text-align:center}
+        .color-swatch .swatch{width:72px;height:72px;border-radius:16px;margin-bottom:.5rem;border:1px solid rgba(255,255,255,.1)}
+        .color-swatch .hex{font-size:.65rem;color:var(--gray-light);font-family:monospace}
+        .color-swatch .name{font-size:.6rem;color:var(--gray);margin-top:2px}
+        .type-row{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--glass-border)}
+        .type-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+        .type-meta{font-size:.65rem;color:var(--gray);margin-bottom:.25rem;font-family:monospace}
+        .gradient-bar{height:48px;border-radius:12px;margin-bottom:.5rem}
+
+        /* ── WEBSITE MOCKUPS ── */
+        .mockup-frame{background:var(--dark2);border:1px solid var(--glass-border);border-radius:16px;overflow:hidden;margin-top:2rem;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+        .mockup-bar{display:flex;align-items:center;gap:8px;padding:.75rem 1rem;background:rgba(255,255,255,.03);border-bottom:1px solid var(--glass-border)}
+        .mockup-dot{width:10px;height:10px;border-radius:50%}
+        .mockup-dot.r{background:#ff5f57}.mockup-dot.y{background:#febc2e}.mockup-dot.g{background:#28c840}
+        .mockup-url{flex:1;text-align:center;font-size:.7rem;color:var(--gray);background:rgba(255,255,255,.04);padding:.35rem 1rem;border-radius:6px;margin:0 3rem}
+        .mockup-body{padding:0;min-height:500px;position:relative;overflow:hidden}
+
+        /* ── Mini Site Preview ── */
+        .mini-nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--glass-border);background:rgba(15,15,26,.9);backdrop-filter:blur(10px)}
+        .mini-logo{font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:6px}
+        .mini-logo .ldot{width:6px;height:6px;background:var(--pink);border-radius:50%}
+        .mini-btn{padding:.4rem 1rem;border-radius:50px;border:1px solid var(--glass-border);background:var(--glass);font-size:.7rem;color:var(--light)}
+        .mini-hero{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:4rem 2rem;align-items:center;min-height:400px}
+        .mini-hero h2{font-size:2.2rem;font-weight:800;letter-spacing:-1.5px;line-height:1.15;margin-bottom:1rem}
+        .mini-hero .cta{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.5rem;border-radius:50px;background:linear-gradient(135deg,var(--purple),var(--pink));font-size:.8rem;font-weight:600;border:none;color:#fff;margin-bottom:1.5rem}
+        .mini-quote{font-size:.85rem;font-style:italic;color:var(--gray)}
+        .mini-img-placeholder{aspect-ratio:4/3;border-radius:16px;background:linear-gradient(135deg,rgba(147,51,234,.2),rgba(6,182,212,.2));border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:3rem;color:rgba(255,255,255,.1)}
+        .mini-cards{display:flex;flex-direction:column;gap:.5rem;margin-top:-2rem;position:relative;z-index:2;padding:0 1rem}
+        .mini-fc{padding:.6rem .8rem;border-radius:10px;background:rgba(255,255,255,.06);backdrop-filter:blur(10px);border:1px solid var(--glass-border);display:flex;gap:.6rem;align-items:center;font-size:.65rem}
+        .mini-fc .fc-ico{width:28px;height:28px;border-radius:8px;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+        .mini-fc strong{display:block;font-size:.7rem}
+
+        /* ── FEATURES PREVIEW ── */
+        .feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:2rem}
+        .feat-card{border-radius:14px;overflow:hidden;position:relative;aspect-ratio:3/4;background:linear-gradient(180deg,rgba(147,51,234,.15),rgba(6,182,212,.1));border:1px solid var(--glass-border)}
+        .feat-card-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)}
+        .feat-card-overlay h4{font-size:.8rem;font-weight:600}
+        .feat-card-overlay p{font-size:.65rem;color:var(--gray-light)}
+
+        /* ── STATS PREVIEW ── */
+        .stats-preview{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:2rem;align-items:center}
+        .stats-preview h3{font-size:1.4rem;font-weight:600;line-height:1.4;margin-bottom:1rem}
+        .stat-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+        .stat-mini{aspect-ratio:16/10;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,rgba(147,51,234,.3),rgba(0,0,0,.4));border:1px solid var(--glass-border);padding:.75rem;display:flex;flex-direction:column;justify-content:space-between}
+        .stat-mini .slbl{font-size:.5rem;background:rgba(255,255,255,.85);color:var(--dark);padding:.2rem .5rem;border-radius:50px;align-self:flex-start;font-weight:600}
+        .stat-mini .snum{font-size:1.3rem;font-weight:800;text-align:right}
+
+        /* ── DEEP DIVE ── */
+        .deep-dive{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem}
+        .dd-item{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:3rem 0;border-bottom:1px solid var(--glass-border)}
+        .dd-item:nth-child(even) .dd-visual{order:-1}
+        .dd-visual{aspect-ratio:4/3;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:3rem;color:rgba(147,51,234,.3);overflow:hidden;position:relative}
+        .dd-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(147,51,234,.1),rgba(6,182,212,.1))}
+        .dd-content h3{font-size:1.4rem;font-weight:700;margin-bottom:.75rem;letter-spacing:-.5px}
+        .dd-content p{font-size:.9rem;color:var(--gray-light);line-height:1.7;margin-bottom:1rem}
+        .dd-features{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+        .dd-features li{font-size:.82rem;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:.5rem}
+        .dd-features li i{color:#10b981;font-size:.7rem}
+
+        /* ── USER JOURNEY ── */
+        .journey{margin-top:3rem;position:relative;padding:2rem 0}
+        .journey-line{position:absolute;top:50%;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink),var(--cyan));opacity:.3}
+        .journey-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative;z-index:2}
+        .journey-step{text-align:center;padding:2rem 1rem}
+        .journey-step-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;margin:0 auto 1rem;box-shadow:0 0 30px rgba(147,51,234,.3)}
+        .journey-step h4{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+        .journey-step p{font-size:.78rem;color:var(--gray-light);line-height:1.5}
+
+        /* ── METRICS ── */
+        .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+        .metric{padding:2.5rem 1.5rem;border-radius:20px;border:1px solid var(--glass-border);background:var(--glass);text-align:center;transition:all .3s ease}
+        .metric:hover{transform:translateY(-6px);border-color:var(--cyan)}
+        .metric-val{font-size:3rem;font-weight:900;letter-spacing:-2px;margin-bottom:.5rem}
+        .metric-lbl{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:2px}
+
+        /* ── TESTIMONIALS ── */
+        .testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+        .testimonial{padding:2rem;border-radius:20px;border:1px solid var(--glass-border);background:var(--glass)}
+        .testimonial-stars{color:#fbbf24;font-size:.75rem;margin-bottom:1rem;letter-spacing:2px}
+        .testimonial p{font-size:.88rem;color:rgba(255,255,255,.85);line-height:1.7;margin-bottom:1.25rem;font-style:italic}
+        .testimonial-author{display:flex;align-items:center;gap:.75rem}
+        .testimonial-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+        .testimonial-name{font-size:.82rem;font-weight:600}
+        .testimonial-role{font-size:.7rem;color:var(--gray)}
+
+        /* ── TECH STACK ── */
+        .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:2rem}
+        .tech-item{padding:1.5rem;border-radius:14px;border:1px solid var(--glass-border);background:var(--glass);text-align:center;transition:all .3s ease}
+        .tech-item:hover{border-color:var(--purple);transform:translateY(-4px)}
+        .tech-item i{font-size:2rem;margin-bottom:.75rem;display:block}
+        .tech-item span{font-size:.75rem;font-weight:600;display:block}
+
+        /* ── FINAL SHOWCASE ── */
+        .showcase{padding:8rem 0;text-align:center;position:relative;overflow:hidden}
+        .showcase-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.2;pointer-events:none}
+        .showcase-devices{display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:3rem;flex-wrap:wrap}
+        .device{border-radius:16px;border:1px solid var(--glass-border);background:var(--dark2);overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5);transition:all .4s ease}
+        .device:hover{transform:translateY(-8px)}
+        .device.desktop{width:700px;max-width:100%}
+        .device.tablet{width:320px;transform:perspective(800px) rotateY(8deg)}
+        .device.tablet:hover{transform:perspective(800px) rotateY(8deg) translateY(-8px)}
+        .device.phone{width:180px;transform:perspective(800px) rotateY(-8deg)}
+        .device.phone:hover{transform:perspective(800px) rotateY(-8deg) translateY(-8px)}
+        .device-bar{padding:.4rem .75rem;background:rgba(255,255,255,.03);border-bottom:1px solid var(--glass-border);display:flex;gap:5px}
+        .device-bar span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.15)}
+        .device-screen{min-height:120px;background:linear-gradient(180deg,var(--dark3),var(--dark));display:flex;align-items:center;justify-content:center;padding:1.5rem;font-size:.6rem;color:var(--gray)}
+
+        /* ── FOOTER ── */
+        .case-footer{padding:4rem 0;border-top:1px solid var(--glass-border);text-align:center}
+        .case-footer h2{font-size:2.5rem;font-weight:800;letter-spacing:-1.5px;margin-bottom:1rem}
+        .case-footer p{color:var(--gray-light);margin-bottom:2rem;font-size:1rem}
+        .case-footer .cta-big{display:inline-flex;align-items:center;gap:.75rem;padding:1rem 2.5rem;border-radius:50px;background:linear-gradient(135deg,var(--purple),var(--pink));font-size:1rem;font-weight:600;border:none;color:#fff;cursor:pointer;transition:all .3s ease;text-decoration:none}
+        .case-footer .cta-big:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(147,51,234,.4)}
+        .case-footer .copy{margin-top:3rem;font-size:.8rem;color:var(--gray)}
+
+        /* ── Responsive ── */
+        @media(max-width:1024px){
+            .canvas-container,.challenge-grid,.deep-dive,.stats-preview{grid-template-columns:1fr}
+            .canvas-container::after{display:none}
+            .personas,.testimonials{grid-template-columns:1fr}
+            .journey-steps{grid-template-columns:repeat(2,1fr)}
+            .metrics-row{grid-template-columns:repeat(2,1fr)}
+            .feat-grid{grid-template-columns:repeat(2,1fr)}
+            .mini-hero{grid-template-columns:1fr}
+            .identity-grid{grid-template-columns:1fr}
+            .showcase-devices{flex-direction:column}
+            .device.tablet,.device.phone{transform:none}
+        }
+        @media(max-width:640px){
+            .journey-steps,.metrics-row,.feat-grid{grid-template-columns:1fr}
+            .container{padding:0 1.25rem}
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-fixed"></div>
+    <div class="noise"></div>
+
+    <!-- ═══════════════════════ COVER ═══════════════════════ -->
+    <section class="cover">
+        <div class="cover-orb cover-orb-1"></div>
+        <div class="cover-orb cover-orb-2"></div>
+        <div class="cover-orb cover-orb-3"></div>
+        <div class="container">
+            <div class="cover-badge"><span class="dot"></span> Behance Case Study · 2026</div>
+            <h1>
+                <span>Moana</span>
+                <span class="grad">Academy</span>
+            </h1>
+            <p class="cover-sub">AI-Powered Design Education Platform — UX/UI Design, Branding, Web Design & Strategic Research</p>
+            <div class="cover-tags">
+                <span class="cover-tag">UX/UI Design</span>
+                <span class="cover-tag">Branding</span>
+                <span class="cover-tag">Web Design</span>
+                <span class="cover-tag">E-Learning</span>
+                <span class="cover-tag">AI Design</span>
+                <span class="cover-tag">VPC Research</span>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i> Scroll</div>
+    </section>
+
+    <!-- ═══════════════════════ PROJECT GOALS ═══════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Project Overview</div>
+                <h2 class="section-title">Project <span class="grad">Goals</span></h2>
+                <p class="section-desc">Moana Academy was created to bridge the gap between traditional design education and the rapidly evolving AI-powered creative landscape.</p>
+            </div>
+            <div class="goals-grid">
+                <div class="goal-card fade-up">
+                    <div class="goal-num">01</div>
+                    <div class="goal-icon" style="background:linear-gradient(135deg,var(--purple),var(--pink))"><i class="fas fa-globe"></i></div>
+                    <h3>Democratize AI Design Education</h3>
+                    <p>Make advanced AI design tools accessible to everyone — from complete beginners to seasoned professionals — through structured, affordable, and mentor-guided learning paths.</p>
+                </div>
+                <div class="goal-card fade-up">
+                    <div class="goal-num">02</div>
+                    <div class="goal-icon" style="background:linear-gradient(135deg,var(--cyan),var(--cyan-light))"><i class="fas fa-link"></i></div>
+                    <h3>Bridge the Industry Skills Gap</h3>
+                    <p>Address the critical shortage of AI-literate designers by providing comprehensive training that combines traditional design principles with cutting-edge AI workflows.</p>
+                </div>
+                <div class="goal-card fade-up">
+                    <div class="goal-num">03</div>
+                    <div class="goal-icon" style="background:linear-gradient(135deg,#ec4899,#f472b6)"><i class="fas fa-rocket"></i></div>
+                    <h3>Enable Career Transformation</h3>
+                    <p>Empower career changers and aspiring designers to break into the industry with job-ready portfolios, industry connections, and confidence to compete in the AI-enhanced landscape.</p>
+                </div>
+                <div class="goal-card fade-up">
+                    <div class="goal-num">04</div>
+                    <div class="goal-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Combat AI Anxiety in Design</h3>
+                    <p>Shift the narrative from "AI will replace designers" to "AI empowers designers" by teaching ethical, creative, and strategic use of AI tools that amplify human creativity.</p>
+                </div>
+                <div class="goal-card fade-up">
+                    <div class="goal-num">05</div>
+                    <div class="goal-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-users"></i></div>
+                    <h3>Build a Learning Community</h3>
+                    <p>Create more than just a course — build an ecosystem of learners, mentors, and industry professionals who support each other through collaborative projects and networking.</p>
+                </div>
+                <div class="goal-card fade-up">
+                    <div class="goal-num">06</div>
+                    <div class="goal-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-chart-line"></i></div>
+                    <h3>Achieve Measurable Outcomes</h3>
+                    <p>Deliver tangible results: 89% job placement rate, average time to first income of 3 months, and 50,000+ active students globally with a 4.9/5 satisfaction rating.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ THE CHALLENGE ═══════════════════════ -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Context</div>
+                <h2 class="section-title">The <span class="grad">Challenge</span></h2>
+                <p class="section-desc">The design industry is undergoing a revolutionary transformation with AI tools. However, most designers feel overwhelmed, underprepared, or fearful of being replaced.</p>
+            </div>
+            <div class="challenge-grid fade-up">
+                <div style="display:flex;flex-direction:column;gap:1.5rem">
+                    <div style="padding:1.5rem;border-radius:16px;border:1px solid rgba(239,68,68,.15);background:rgba(239,68,68,.04)">
+                        <h4 style="color:#f87171;margin-bottom:.5rem"><i class="fas fa-exclamation-triangle"></i>&nbsp; The Problem</h4>
+                        <p style="font-size:.88rem;color:var(--gray-light);line-height:1.7">78% of designers report feeling unprepared for AI integration. Existing courses are either too expensive, too technical, or quickly become outdated as tools evolve weekly.</p>
+                    </div>
+                    <div style="padding:1.5rem;border-radius:16px;border:1px solid rgba(16,185,129,.15);background:rgba(16,185,129,.04)">
+                        <h4 style="color:#34d399;margin-bottom:.5rem"><i class="fas fa-lightbulb"></i>&nbsp; Our Solution</h4>
+                        <p style="font-size:.88rem;color:var(--gray-light);line-height:1.7">Moana Academy provides structured, mentor-guided education that empowers designers to harness AI as a creative superpower — with continuously updated content and real-world projects.</p>
+                    </div>
+                    <div style="padding:1.5rem;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass)">
+                        <h4 style="margin-bottom:.5rem"><i class="fas fa-bullseye" style="color:var(--pink)"></i>&nbsp; Key Insight</h4>
+                        <p style="font-size:.88rem;color:var(--gray-light);line-height:1.7">"From Overwhelmed → Empowered" — Students don't need to learn every AI tool. They need a framework for thinking creatively with AI.</p>
+                    </div>
+                </div>
+                <div class="challenge-visual">
+                    <div class="challenge-box before">
+                        <i class="fas fa-face-confused" style="color:#f87171"></i>
+                        <h4>Before</h4>
+                        <p>Confused by complex AI interfaces, expensive tools, and no clear learning path</p>
+                    </div>
+                    <div class="challenge-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="challenge-box after">
+                        <i class="fas fa-face-smile-beam" style="color:#34d399"></i>
+                        <h4>After</h4>
+                        <p>Confident AI-powered designer with portfolio, skills, and job placement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VALUE PROPOSITION CANVAS ═══════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Research & Discovery</div>
+                <h2 class="section-title">Value Proposition <span class="grad">Canvas</span></h2>
+                <p class="section-desc">A strategic framework mapping the fit between what customers want and what Moana Academy delivers — based on the Osterwalder model.</p>
+            </div>
+            <div class="canvas-container fade-up">
+                <!-- VALUE MAP -->
+                <div class="canvas-panel value-map">
+                    <div class="canvas-panel-title">
+                        <h3 class="grad-purple">Value Map</h3>
+                        <span class="tag">What We Offer</span>
+                    </div>
+                    <div class="canvas-block">
+                        <div class="canvas-block-head">
+                            <div class="ico" style="background:linear-gradient(135deg,var(--purple),var(--pink))"><i class="fas fa-graduation-cap"></i></div>
+                            <div><div class="sub">Products & Services</div><h4>Products & Services</h4></div>
+                        </div>
+                        <ul class="canvas-list">
+                            <li><i class="fas fa-circle"></i> Video courses on Midjourney, Stable Diffusion, DALL-E, Runway</li>
+                            <li><i class="fas fa-circle"></i> Personal mentorship from practicing designers</li>
+                            <li><i class="fas fa-circle"></i> Hands-on portfolio projects with detailed feedback</li>
+                            <li><i class="fas fa-circle"></i> Private community of designers and AI enthusiasts</li>
+                            <li><i class="fas fa-circle"></i> Certification and career placement support</li>
+                        </ul>
+                    </div>
+                    <div class="canvas-block">
+                        <div class="canvas-block-head">
+                            <div class="ico" style="background:linear-gradient(135deg,#ec4899,#f472b6)"><i class="fas fa-heart-pulse"></i></div>
+                            <div><div class="sub">Pain Relievers</div><h4>Pain Relievers</h4></div>
+                        </div>
+                        <ul class="canvas-list">
+                            <li><i class="fas fa-circle"></i> Affordable pricing with interest-free installment plans</li>
+                            <li><i class="fas fa-circle"></i> Clear step-by-step lessons — from basics to advanced</li>
+                            <li><i class="fas fa-circle"></i> Mentor feedback within 24 hours</li>
+                            <li><i class="fas fa-circle"></i> Fresh content updated every month</li>
+                            <li><i class="fas fa-circle"></i> Shows how AI empowers designers, not replaces them</li>
+                        </ul>
+                    </div>
+                    <div class="canvas-block">
+                        <div class="canvas-block-head">
+                            <div class="ico" style="background:linear-gradient(135deg,var(--cyan),var(--cyan-light))"><i class="fas fa-rocket"></i></div>
+                            <div><div class="sub">Gain Creators</div><h4>Gain Creators</h4></div>
+                        </div>
+                        <ul class="canvas-list">
+                            <li><i class="fas fa-circle"></i> Job placement at top studios and agencies</li>
+                            <li><i class="fas fa-circle"></i> Flexible schedule — learn at your own pace</li>
+                            <li><i class="fas fa-circle"></i> Real commercial projects during the course</li>
+                            <li><i class="fas fa-circle"></i> Networking and access to exclusive job openings</li>
+                            <li><i class="fas fa-circle"></i> Lifetime access to materials and updates</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- CUSTOMER PROFILE -->
+                <div class="canvas-panel customer-profile">
+                    <div class="canvas-panel-title">
+                        <h3 class="grad-cyan">Customer Profile</h3>
+                        <span class="tag">Who Our Customer Is</span>
+                    </div>
+                    <div class="canvas-block">
+                        <div class="canvas-block-head">
+                            <div class="ico" style="background:linear-gradient(135deg,var(--purple),var(--pink))"><i class="fas fa-briefcase"></i></div>
+                            <div><div class="sub">Customer Jobs</div><h4>Customer Jobs</h4></div>
+                        </div>
+                        <ul class="canvas-list">
+                            <li><i class="fas fa-circle"></i> Master a new profession in design</li>
+                            <li><i class="fas fa-circle"></i> Learn to work effectively with AI tools</li>
+                            <li><i class="fas fa-circle"></i> Build a strong portfolio for job applications</li>
+                            <li><i class="fas fa-circle"></i> Reach a new income level / change careers</li>
+                            <li><i class="fas fa-circle"></i> Start taking freelance projects</li>
+                        </ul>
+                    </div>
+                    <div class="canvas-block">
+                        <div class="canvas-block-head">
+                            <div class="ico" style="background:linear-gradient(135deg,#ec4899,#f472b6)"><i class="fas fa-face-frown"></i></div>
+                            <div><div class="sub">Pains</div><h4>Pains & Fears</h4></div>
+                        </div>
+                        <ul class="canvas-list">
+                            <li><i class="fas fa-circle"></i> Courses are expensive and results aren't guaranteed</li>
+                            <li><i class="fas fa-circle"></i> No feedback — stuck on mistakes</li>
+                            <li><i class="fas fa-circle"></i> Hard to understand prompts and settings</li>
+                            <li><i class="fas fa-circle"></i> Fear that AI will replace designers</li>
+                            <li><i class="fas fa-circle"></i> Materials and tools become outdated quickly</li>
+                        </ul>
+                    </div>
+                    <div class="canvas-block">
+                        <div class="canvas-block-head">
+                            <div class="ico" style="background:linear-gradient(135deg,var(--cyan),var(--cyan-light))"><i class="fas fa-face-smile"></i></div>
+                            <div><div class="sub">Gains</div><h4>Expected Gains</h4></div>
+                        </div>
+                        <ul class="canvas-list">
+                            <li><i class="fas fa-circle"></i> High salary in an in-demand profession</li>
+                            <li><i class="fas fa-circle"></i> Fast start — first results in 2-3 months</li>
+                            <li><i class="fas fa-circle"></i> Creative fulfillment and interesting projects</li>
+                            <li><i class="fas fa-circle"></i> Freedom: remote work, flexible schedule, freelancing</li>
+                            <li><i class="fas fa-circle"></i> Recognition in the professional community</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ PERSONAS ═══════════════════════ -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Target Audience</div>
+                <h2 class="section-title">Customer <span class="grad">Segments</span></h2>
+                <p class="section-desc">Three key profiles of our students, each with unique needs and motivations.</p>
+            </div>
+            <div class="personas fade-up">
+                <div class="persona">
+                    <div class="persona-avatar"><i class="fas fa-seedling"></i></div>
+                    <h3>The Beginner</h3>
+                    <div class="role">Career Changer · Aspiring Designer</div>
+                    <div class="persona-quote">"I want to break into design but don't know where to start. AI feels like my shortcut."</div>
+                    <p>Wants to change careers or try design from scratch. Looking for a clear, structured path into the industry with affordable entry.</p>
+                    <div class="persona-stats">
+                        <div><div class="persona-stat-val">18-28</div><div class="persona-stat-lbl">Age Range</div></div>
+                        <div><div class="persona-stat-val">55%</div><div class="persona-stat-lbl">Audience</div></div>
+                    </div>
+                </div>
+                <div class="persona">
+                    <div class="persona-avatar" style="background:linear-gradient(135deg,var(--cyan),var(--cyan-light))"><i class="fas fa-pen-ruler"></i></div>
+                    <h3>Practicing Designer</h3>
+                    <div class="role">Mid-Level · Agency / Freelance</div>
+                    <div class="persona-quote">"I need to integrate AI into my workflow before my clients expect it from me."</div>
+                    <p>Already works in design but wants to integrate AI tools, speed up production, and increase rates without losing creative control.</p>
+                    <div class="persona-stats">
+                        <div><div class="persona-stat-val">25-40</div><div class="persona-stat-lbl">Age Range</div></div>
+                        <div><div class="persona-stat-val">30%</div><div class="persona-stat-lbl">Audience</div></div>
+                    </div>
+                </div>
+                <div class="persona">
+                    <div class="persona-avatar" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-lightbulb"></i></div>
+                    <h3>Entrepreneur</h3>
+                    <div class="role">Startup Founder · Content Creator</div>
+                    <div class="persona-quote">"I need professional visuals for my brand but can't afford to hire a full-time designer."</div>
+                    <p>Creates content for their business and wants to produce high-quality visuals independently using AI-powered design tools.</p>
+                    <div class="persona-stats">
+                        <div><div class="persona-stat-val">30-50</div><div class="persona-stat-lbl">Age Range</div></div>
+                        <div><div class="persona-stat-val">15%</div><div class="persona-stat-lbl">Audience</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ VISUAL IDENTITY ═══════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Brand System</div>
+                <h2 class="section-title">Visual <span class="grad">Identity</span></h2>
+                <p class="section-desc">A futuristic yet approachable design language combining deep purples, vibrant pinks, and electric cyan.</p>
+            </div>
+            <div class="identity-grid fade-up">
+                <!-- Colors -->
+                <div class="identity-card">
+                    <h3><i class="fas fa-palette" style="color:var(--pink)"></i> Color Palette</h3>
+                    <div class="color-row">
+                        <div class="color-swatch"><div class="swatch" style="background:#9333ea"></div><div class="hex">#9333EA</div><div class="name">Purple</div></div>
+                        <div class="color-swatch"><div class="swatch" style="background:#c084fc"></div><div class="hex">#C084FC</div><div class="name">Pink</div></div>
+                        <div class="color-swatch"><div class="swatch" style="background:#06b6d4"></div><div class="hex">#06B6D4</div><div class="name">Cyan</div></div>
+                        <div class="color-swatch"><div class="swatch" style="background:#67e8f9"></div><div class="hex">#67E8F9</div><div class="name">Cyan Light</div></div>
+                        <div class="color-swatch"><div class="swatch" style="background:#0a0a14"></div><div class="hex">#0A0A14</div><div class="name">Dark</div></div>
+                        <div class="color-swatch"><div class="swatch" style="background:#f9fafb"></div><div class="hex">#F9FAFB</div><div class="name">Light</div></div>
+                    </div>
+                    <h3 style="margin-top:1.5rem"><i class="fas fa-wand-magic-sparkles" style="color:var(--cyan)"></i> Gradients</h3>
+                    <div class="gradient-bar" style="background:linear-gradient(135deg,#9333ea,#c084fc)"></div>
+                    <div class="gradient-bar" style="background:linear-gradient(135deg,#06b6d4,#67e8f9)"></div>
+                    <div class="gradient-bar" style="background:linear-gradient(135deg,#9333ea,#c084fc,#06b6d4)"></div>
+                </div>
+                <!-- Typography -->
+                <div class="identity-card">
+                    <h3><i class="fas fa-font" style="color:var(--purple)"></i> Typography — Inter</h3>
+                    <div class="type-row">
+                        <div class="type-meta">H1 · 3.8rem (60.8px) · Weight 700 · Tracking -2px</div>
+                        <div style="font-size:2.2rem;font-weight:700;letter-spacing:-1.5px">Master design with AI</div>
+                    </div>
+                    <div class="type-row">
+                        <div class="type-meta">H2 · 2.5rem (40px) · Weight 500-700 · Tracking -1px</div>
+                        <div style="font-size:1.5rem;font-weight:600;letter-spacing:-.5px">Discover Features</div>
+                    </div>
+                    <div class="type-row">
+                        <div class="type-meta">H3 · 1.25rem (20px) · Weight 600</div>
+                        <div style="font-size:1.1rem;font-weight:600">Collaborative Space</div>
+                    </div>
+                    <div class="type-row">
+                        <div class="type-meta">Body · 1rem (16px) · Weight 400 · Line-height 1.6</div>
+                        <div style="font-size:.9rem;color:var(--gray-light)">Explore the cutting-edge capabilities of Moana Academy's AI-powered design education platform.</div>
+                    </div>
+                    <div class="type-row">
+                        <div class="type-meta">Caption · 0.75rem (12px) · Weight 600 · Tracking 2px · Uppercase</div>
+                        <div style="font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray)">ABOUT THE ACADEMY</div>
+                    </div>
+                    <div class="type-row">
+                        <div class="type-meta">Button · 1rem (16px) · Weight 600</div>
+                        <span style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.5rem;border-radius:50px;background:linear-gradient(135deg,var(--purple),var(--pink));font-size:.85rem;font-weight:600">Enroll Now <i class="fas fa-arrow-right" style="font-size:.75rem"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ WEBSITE MOCKUPS ═══════════════════════ -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Website Design</div>
+                <h2 class="section-title">Hero <span class="grad">Section</span></h2>
+                <p class="section-desc">The landing page hero creates an immediate emotional connection with gradient typography, glassmorphism feature cards, and a clear call-to-action.</p>
+            </div>
+            <div class="mockup-frame fade-up">
+                <div class="mockup-bar">
+                    <div class="mockup-dot r"></div><div class="mockup-dot y"></div><div class="mockup-dot g"></div>
+                    <div class="mockup-url">moana-academy.com</div>
+                </div>
+                <div class="mockup-body">
+                    <div class="mini-nav">
+                        <div class="mini-logo"><span class="ldot"></span> moana <span style="font-weight:400;opacity:.7;font-size:.85rem">academy</span></div>
+                        <div class="mini-btn"><i class="fas fa-bars"></i> Menu</div>
+                    </div>
+                    <div class="mini-hero">
+                        <div>
+                            <div style="display:inline-flex;align-items:center;gap:6px;padding:.3rem .8rem;border-radius:50px;border:1px solid var(--glass-border);background:var(--glass);font-size:.65rem;margin-bottom:1rem"><span class="dot" style="width:6px;height:6px;background:#10b981;border-radius:50%;display:inline-block"></span> AI Design Education 2026</div>
+                            <h2>Master design with AI at <span class="grad">moana academy</span></h2>
+                            <div class="cta">Enroll Now <i class="fas fa-arrow-right"></i></div>
+                            <div class="mini-quote">"We believe <span class="grad-purple">everyone</span> can become a designer with the <span class="grad-purple">right tools.</span>"<br><span style="font-size:.7rem;font-style:normal;color:var(--gray)">— Andrea Stella, Founder</span></div>
+                        </div>
+                        <div style="position:relative">
+                            <div class="mini-img-placeholder"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="mini-cards">
+                                <div class="mini-fc"><div class="fc-ico"><i class="fas fa-user-graduate"></i></div><div><strong>Expert Mentors</strong>Learn from industry professionals</div></div>
+                                <div class="mini-fc"><div class="fc-ico"><i class="fas fa-wand-magic-sparkles"></i></div><div><strong>AI Tools Mastery</strong>Midjourney, DALL-E, Runway</div></div>
+                                <div class="mini-fc"><div class="fc-ico"><i class="fas fa-briefcase"></i></div><div><strong>Portfolio Projects</strong>Hands-on guided projects</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section Mockup -->
+            <div class="fade-up" style="margin-top:4rem">
+                <div class="section-label">Curriculum</div>
+                <h2 class="section-title" style="font-size:2rem">What You'll <span class="grad">Learn</span></h2>
+            </div>
+            <div class="mockup-frame fade-up" style="margin-top:1.5rem">
+                <div class="mockup-bar"><div class="mockup-dot r"></div><div class="mockup-dot y"></div><div class="mockup-dot g"></div><div class="mockup-url">moana-academy.com/courses</div></div>
+                <div class="mockup-body" style="padding:1.5rem;background:var(--dark)">
+                    <div style="text-align:center;margin-bottom:1.5rem">
+                        <h3 style="font-size:1.3rem;font-weight:700">What You'll <span class="grad-purple">Learn</span></h3>
+                        <p style="font-size:.75rem;color:var(--gray)">Explore our comprehensive curriculum designed for the AI era</p>
+                    </div>
+                    <div class="feat-grid" style="padding:0">
+                        <div class="feat-card"><div class="feat-card-overlay"><h4>Prompt Engineering</h4><p>Master the Art</p></div></div>
+                        <div class="feat-card" style="background:linear-gradient(180deg,rgba(6,182,212,.15),rgba(147,51,234,.1))"><div class="feat-card-overlay"><h4>Visual Composition</h4><p>Design Principles</p></div></div>
+                        <div class="feat-card" style="background:linear-gradient(180deg,rgba(236,72,153,.15),rgba(147,51,234,.1))"><div class="feat-card-overlay"><h4>AI Prototyping</h4><p>Rapid Creation</p></div></div>
+                        <div class="feat-card" style="background:linear-gradient(180deg,rgba(245,158,11,.15),rgba(147,51,234,.1))"><div class="feat-card-overlay"><h4>Brand Identity</h4><p>AI-Powered Branding</p></div></div>
+                    </div>
+                    <div style="display:flex;justify-content:center;align-items:center;gap:1rem;margin-top:1.5rem">
+                        <div style="width:36px;height:36px;border-radius:50%;border:1px solid var(--glass-border);background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:.7rem"><i class="fas fa-chevron-left"></i></div>
+                        <div style="display:flex;gap:.4rem"><span style="width:20px;height:6px;border-radius:3px;background:var(--purple)"></span><span style="width:6px;height:6px;border-radius:3px;background:var(--gray)"></span><span style="width:6px;height:6px;border-radius:3px;background:var(--gray)"></span><span style="width:6px;height:6px;border-radius:3px;background:var(--gray)"></span></div>
+                        <div style="width:36px;height:36px;border-radius:50%;border:1px solid var(--glass-border);background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:.7rem"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Section Mockup -->
+            <div class="mockup-frame fade-up" style="margin-top:2rem">
+                <div class="mockup-bar"><div class="mockup-dot r"></div><div class="mockup-dot y"></div><div class="mockup-dot g"></div><div class="mockup-url">moana-academy.com/results</div></div>
+                <div class="mockup-body" style="padding:0;background:var(--dark)">
+                    <div class="stats-preview">
+                        <div>
+                            <div style="font-size:.65rem;color:var(--gray);margin-bottom:.5rem">The Power of Our Academy</div>
+                            <h3>Your Gateway to a Creative Career — <span class="grad-cyan">One</span> platform, <span class="grad-purple">thousands</span> of success stories</h3>
+                            <div style="display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1.2rem;border-radius:50px;border:1px solid var(--glass-border);background:var(--glass);font-size:.75rem;margin-bottom:1rem">View Courses <i class="fas fa-arrow-right" style="font-size:.65rem"></i></div>
+                            <p style="font-size:.75rem;color:var(--gray);line-height:1.6">Trusted by leading design studios<br>and creative agencies worldwide</p>
+                        </div>
+                        <div class="stat-mini-grid">
+                            <div class="stat-mini"><span class="slbl">course modules</span><span class="snum">24+</span></div>
+                            <div class="stat-mini"><span class="slbl">active students</span><span class="snum">50K+</span></div>
+                            <div class="stat-mini"><span class="slbl">video lessons</span><span class="snum">300+</span></div>
+                            <div class="stat-mini"><span class="slbl">job placement</span><span class="snum">89%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ KEY FEATURES DEEP DIVE ═══════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Features</div>
+                <h2 class="section-title">Key Features <span class="grad">Deep Dive</span></h2>
+            </div>
+            <div class="fade-up">
+                <div class="dd-item">
+                    <div class="dd-content">
+                        <h3>Interactive Learning Platform</h3>
+                        <p>A comprehensive LMS with video courses, progress tracking, integrated code editors, and AI-powered quizzes that adapt to each student's learning pace.</p>
+                        <ul class="dd-features">
+                            <li><i class="fas fa-check-circle"></i> 300+ HD video lessons</li>
+                            <li><i class="fas fa-check-circle"></i> Progress tracking dashboard</li>
+                            <li><i class="fas fa-check-circle"></i> Interactive assignments</li>
+                            <li><i class="fas fa-check-circle"></i> Downloadable resources</li>
+                        </ul>
+                    </div>
+                    <div class="dd-visual"><i class="fas fa-play-circle"></i></div>
+                </div>
+                <div class="dd-item">
+                    <div class="dd-visual"><i class="fas fa-comments"></i></div>
+                    <div class="dd-content">
+                        <h3>Mentor Feedback System</h3>
+                        <p>Get personalized feedback on every project submission within 24 hours from industry professionals who actively use AI tools in their daily work.</p>
+                        <ul class="dd-features">
+                            <li><i class="fas fa-check-circle"></i> 24-hour response guarantee</li>
+                            <li><i class="fas fa-check-circle"></i> Video feedback recordings</li>
+                            <li><i class="fas fa-check-circle"></i> 1-on-1 monthly calls</li>
+                            <li><i class="fas fa-check-circle"></i> Portfolio review sessions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dd-item">
+                    <div class="dd-content">
+                        <h3>Portfolio Projects</h3>
+                        <p>Build a stunning portfolio with real commercial projects. Students work on actual client briefs, creating production-ready deliverables using AI tools.</p>
+                        <ul class="dd-features">
+                            <li><i class="fas fa-check-circle"></i> 12 portfolio-ready projects</li>
+                            <li><i class="fas fa-check-circle"></i> Real client briefs</li>
+                            <li><i class="fas fa-check-circle"></i> Industry-standard deliverables</li>
+                            <li><i class="fas fa-check-circle"></i> Behance-ready case studies</li>
+                        </ul>
+                    </div>
+                    <div class="dd-visual"><i class="fas fa-folder-open"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ USER JOURNEY ═══════════════════════ -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="fade-up" style="text-align:center">
+                <div class="section-label" style="justify-content:center"><span></span>Experience</div>
+                <h2 class="section-title">User <span class="grad">Journey</span></h2>
+                <p class="section-desc" style="margin:0 auto">From first visit to career transformation — a seamless four-stage experience.</p>
+            </div>
+            <div class="journey fade-up">
+                <div class="journey-line"></div>
+                <div class="journey-steps">
+                    <div class="journey-step">
+                        <div class="journey-step-num">1</div>
+                        <h4>Discovery</h4>
+                        <p>Landing page → Course exploration → Curriculum review → Free trial lesson</p>
+                    </div>
+                    <div class="journey-step">
+                        <div class="journey-step-num" style="background:linear-gradient(135deg,var(--pink),#ec4899)">2</div>
+                        <h4>Enrollment</h4>
+                        <p>Sign-up → Payment (installments available) → Onboarding → Learning path setup</p>
+                    </div>
+                    <div class="journey-step">
+                        <div class="journey-step-num" style="background:linear-gradient(135deg,var(--cyan),var(--cyan-light))">3</div>
+                        <h4>Learning</h4>
+                        <p>Video lessons → Hands-on projects → Mentor feedback → Skill assessments</p>
+                    </div>
+                    <div class="journey-step">
+                        <div class="journey-step-num" style="background:linear-gradient(135deg,#10b981,#34d399)">4</div>
+                        <h4>Graduation</h4>
+                        <p>Portfolio review → Certification → Job placement → Alumni network access</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ IMPACT & RESULTS ═══════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <div class="fade-up" style="text-align:center">
+                <div class="section-label" style="justify-content:center"><span></span>Results</div>
+                <h2 class="section-title">Impact & <span class="grad">Results</span></h2>
+                <p class="section-desc" style="margin:0 auto">Measurable outcomes that demonstrate the effectiveness of our educational approach.</p>
+            </div>
+            <div class="metrics-row fade-up">
+                <div class="metric">
+                    <div class="metric-val grad-cyan">89%</div>
+                    <div class="metric-lbl">Job Placement Rate</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val grad-purple">4.9★</div>
+                    <div class="metric-lbl">Average Rating</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val grad">3 mo</div>
+                    <div class="metric-lbl">To First Income</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val grad-cyan">50K+</div>
+                    <div class="metric-lbl">Active Graduates</div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="testimonials fade-up">
+                <div class="testimonial">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"Moana Academy completely changed my career. I went from zero design experience to landing a job at a top agency in just 4 months. The AI tools training was a game-changer."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SK</div>
+                        <div><div class="testimonial-name">Sarah Kim</div><div class="testimonial-role">AI Design Specialist, Pentagram</div></div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"As a senior designer, I was skeptical about AI courses. But Moana Academy showed me how to integrate Midjourney into my workflow, cutting my production time by 60%."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background:linear-gradient(135deg,var(--cyan),var(--cyan-light))">MR</div>
+                        <div><div class="testimonial-name">Marcus Rivera</div><div class="testimonial-role">Creative Director, Freelance</div></div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"The mentor feedback system is incredible. Getting detailed video reviews within 24 hours kept me motivated and helped me improve faster than any other course I've taken."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">EJ</div>
+                        <div><div class="testimonial-name">Emily Johnson</div><div class="testimonial-role">Brand Designer, Spotify</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ TECH STACK ═══════════════════════ -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label">Implementation</div>
+                <h2 class="section-title">Technical <span class="grad">Stack</span></h2>
+                <p class="section-desc">Built with modern web technologies for maximum performance and accessibility.</p>
+            </div>
+            <div class="tech-grid fade-up">
+                <div class="tech-item"><i class="fab fa-html5" style="color:#e34f26"></i><span>HTML5</span></div>
+                <div class="tech-item"><i class="fab fa-css3-alt" style="color:#1572b6"></i><span>CSS3</span></div>
+                <div class="tech-item"><i class="fab fa-js" style="color:#f7df1e"></i><span>JavaScript</span></div>
+                <div class="tech-item"><i class="fas fa-wand-magic-sparkles" style="color:var(--purple)"></i><span>GSAP</span></div>
+                <div class="tech-item"><i class="fas fa-eye" style="color:var(--cyan)"></i><span>Intersection Observer</span></div>
+                <div class="tech-item"><i class="fas fa-table-cells" style="color:var(--pink)"></i><span>CSS Grid</span></div>
+                <div class="tech-item"><i class="fas fa-mobile-screen" style="color:#10b981"></i><span>Responsive</span></div>
+                <div class="tech-item"><i class="fas fa-universal-access" style="color:#f59e0b"></i><span>A11y: 100</span></div>
+            </div>
+            <div class="fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem">
+                <div class="glass" style="padding:1.5rem;border-radius:16px;text-align:center">
+                    <div style="font-size:2rem;font-weight:800;color:#10b981">98</div>
+                    <div style="font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:.25rem">Performance</div>
+                </div>
+                <div class="glass" style="padding:1.5rem;border-radius:16px;text-align:center">
+                    <div style="font-size:2rem;font-weight:800;color:#10b981">100</div>
+                    <div style="font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:.25rem">Accessibility</div>
+                </div>
+                <div class="glass" style="padding:1.5rem;border-radius:16px;text-align:center">
+                    <div style="font-size:2rem;font-weight:800;color:#10b981">&lt;2s</div>
+                    <div style="font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:.25rem">Load Time</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ FINAL SHOWCASE ═══════════════════════ -->
+    <section class="showcase">
+        <div class="showcase-orb" style="width:500px;height:500px;background:var(--purple);top:-10%;left:10%"></div>
+        <div class="showcase-orb" style="width:400px;height:400px;background:var(--cyan);bottom:-10%;right:10%"></div>
+        <div class="container">
+            <div class="fade-up">
+                <div class="section-label" style="justify-content:center"><span></span>Final Delivery</div>
+                <h2 class="section-title" style="text-align:center">Responsive <span class="grad">Showcase</span></h2>
+                <p class="section-desc" style="margin:0 auto;text-align:center">Pixel-perfect across every device — from ultra-wide desktop to mobile.</p>
+            </div>
+            <div class="showcase-devices fade-up">
+                <div class="device tablet">
+                    <div class="device-bar"><span></span><span></span><span></span></div>
+                    <div class="device-screen" style="min-height:280px;flex-direction:column;gap:.5rem">
+                        <div style="font-size:.55rem;font-weight:700">moana academy</div>
+                        <div style="font-size:.4rem;color:var(--gray)">Tablet View · 768px</div>
+                        <div style="width:80%;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--purple),var(--pink));margin-top:.5rem"></div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;width:80%;margin-top:.5rem">
+                            <div style="aspect-ratio:1;border-radius:4px;background:rgba(147,51,234,.15);border:1px solid var(--glass-border)"></div>
+                            <div style="aspect-ratio:1;border-radius:4px;background:rgba(6,182,212,.15);border:1px solid var(--glass-border)"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device desktop">
+                    <div class="device-bar"><span></span><span></span><span></span></div>
+                    <div class="device-screen" style="min-height:350px;flex-direction:column;gap:.75rem;padding:2rem">
+                        <div style="display:flex;justify-content:space-between;width:100%">
+                            <div style="font-size:.65rem;font-weight:700">moana academy</div>
+                            <div style="font-size:.45rem;padding:.15rem .5rem;border-radius:50px;border:1px solid var(--glass-border)">Menu</div>
+                        </div>
+                        <div style="font-size:1rem;font-weight:800;letter-spacing:-.5px;text-align:center;margin-top:1rem">Master design with AI at <span class="grad">moana academy</span></div>
+                        <div style="text-align:center"><span style="display:inline-flex;align-items:center;gap:.3rem;padding:.3rem 1rem;border-radius:50px;background:linear-gradient(135deg,var(--purple),var(--pink));font-size:.5rem;font-weight:600">Enroll Now</span></div>
+                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;width:100%;margin-top:auto">
+                            <div style="aspect-ratio:3/4;border-radius:6px;background:linear-gradient(180deg,rgba(147,51,234,.2),rgba(0,0,0,.3));border:1px solid var(--glass-border)"></div>
+                            <div style="aspect-ratio:3/4;border-radius:6px;background:linear-gradient(180deg,rgba(6,182,212,.2),rgba(0,0,0,.3));border:1px solid var(--glass-border)"></div>
+                            <div style="aspect-ratio:3/4;border-radius:6px;background:linear-gradient(180deg,rgba(236,72,153,.2),rgba(0,0,0,.3));border:1px solid var(--glass-border)"></div>
+                            <div style="aspect-ratio:3/4;border-radius:6px;background:linear-gradient(180deg,rgba(245,158,11,.2),rgba(0,0,0,.3));border:1px solid var(--glass-border)"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device phone">
+                    <div class="device-bar"><span></span><span></span><span></span></div>
+                    <div class="device-screen" style="min-height:320px;flex-direction:column;gap:.4rem;padding:.75rem">
+                        <div style="font-size:.45rem;font-weight:700">moana</div>
+                        <div style="font-size:.5rem;font-weight:700;text-align:center;margin-top:.5rem;line-height:1.2">Master<br>design<br>with <span class="grad" style="font-size:.5rem">AI</span></div>
+                        <span style="display:inline-flex;padding:.2rem .6rem;border-radius:50px;background:linear-gradient(135deg,var(--purple),var(--pink));font-size:.35rem;font-weight:600;align-self:center;margin-top:.5rem">Enroll</span>
+                        <div style="display:flex;flex-direction:column;gap:3px;margin-top:auto;width:100%">
+                            <div style="height:24px;border-radius:4px;background:rgba(147,51,234,.12);border:1px solid var(--glass-border)"></div>
+                            <div style="height:24px;border-radius:4px;background:rgba(6,182,212,.12);border:1px solid var(--glass-border)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ CONCLUSION ═══════════════════════ -->
+    <section class="case-footer">
+        <div class="container fade-up">
+            <h2>Ready to Master <span class="grad">Design with AI</span>?</h2>
+            <p>Join 50,000+ students transforming their creative careers at Moana Academy.</p>
+            <a href="#" class="cta-big">Enroll Now <i class="fas fa-arrow-right"></i></a>
+            <div style="margin-top:2rem;font-size:.8rem;color:var(--gray)">Rated 4.9/5 by students worldwide</div>
+            <div class="copy">Moana Academy · Behance Case Study · © 2026 All Rights Reserved</div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
+    <script>
+        // Intersection Observer for fade-up animations
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    obs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+        // Parallax on orbs
+        window.addEventListener('scroll', () => {
+            const s = window.pageYOffset;
+            document.querySelectorAll('.cover-orb').forEach((orb, i) => {
+                orb.style.transform = `translateY(${s * 0.08 * (i + 1)}px)`;
+            });
+            document.querySelectorAll('.showcase-orb').forEach((orb, i) => {
+                orb.style.transform = `translateY(${s * 0.04 * (i % 2 === 0 ? 1 : -1)}px)`;
+            });
+        });
+
+        // Counter animation for metrics
+        const counters = document.querySelectorAll('.metric-val');
+        const counterObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const text = el.textContent;
+                    // Simple reveal animation
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        el.style.transition = 'all 0.6s ease';
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 200);
+                    counterObs.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => counterObs.observe(c));
+
+        console.log('Moana Academy — Behance Case Study loaded 🎨✨');
+    </script>
+</body>
+</html>
